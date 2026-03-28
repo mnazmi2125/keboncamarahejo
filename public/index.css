@@ -1,0 +1,938 @@
+  <style><style>
+        /* ========================================
+           MODERN REDESIGN - COMPLETE OVERHAUL
+        ======================================== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B35;
+            --secondary: #004E89;
+            --accent: #F7B801;
+            --dark: #1A1A2E;
+            --light: #F5F5F5;
+            --success: #06D6A0;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-hero: linear-gradient(135deg, #FF6B35 0%, #F7B801 100%);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(180deg, #FAFBFC 0%, #F0F4F8 100%);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Container */
+        .app-container {
+            max-width: 640px;
+            margin: 0 auto;
+            background: #ffffff;
+            min-height: 100vh;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           HEADER SECTION
+        ======================================== */
+        .header {
+            background: var(--gradient-hero);
+            padding: 20px 20px 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: #ffffff;
+            border-radius: 40px 40px 0 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        .welcome-text {
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+
+        .welcome-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .welcome-text p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .search-wrapper {
+            position: relative;
+            z-index: 1000;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            border: none;
+            border-radius: 16px;
+            font-size: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        /* Search Dropdown Styles */
+        .search-dropdown {
+            position: fixed;
+            top: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 600px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            max-height: calc(100vh - 220px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: none;
+            z-index: 9999;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .search-dropdown.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Backdrop untuk dropdown */
+        .search-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 9998;
+            backdrop-filter: blur(2px);
+        }
+
+        .search-backdrop.show {
+            display: block;
+        }
+
+        /* Prevent body scroll saat dropdown buka */
+        body.dropdown-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+
+        /* Custom Scrollbar untuk Dropdown */
+        .search-dropdown::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .search-dropdown::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .search-dropdown::-webkit-scrollbar-thumb {
+            background: #FF6B35;
+            border-radius: 10px;
+        }
+
+        .search-dropdown::-webkit-scrollbar-thumb:hover {
+            background: #e55a25;
+        }
+
+        .search-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+        }
+
+        .search-dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-dropdown-item:hover {
+            background: #f8f9fa;
+        }
+
+        .search-dropdown-item:active {
+            background: #e8e8e8;
+        }
+
+        .search-dropdown-item.hidden {
+            display: none;
+        }
+
+        .search-item-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .search-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .search-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .search-item-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .search-item-location {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .search-item-price {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .no-results {
+            padding: 30px 20px;
+            text-align: center;
+            color: #999;
+            display: none;
+        }
+
+        .no-results.show {
+            display: block;
+        }
+
+        .search-dropdown-empty {
+            padding: 30px 20px;
+            text-align: center;
+            color: #999;
+        }
+
+        /* ========================================
+           MAIN CONTENT
+        ======================================== */
+        .content-wrapper {
+            padding: 0 0 100px;
+            margin-top: -40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            padding: 0 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .view-all-btn {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .view-all-btn:hover {
+            gap: 8px;
+        }
+
+        /* ========================================
+           POPULAR CARDS - New Design
+        ======================================== */
+        .popular-slider {
+            padding: 0 20px;
+        }
+
+        /* Fix Swiper Overflow */
+        .swiper-wrapper {
+            display: flex;
+            align-items: stretch;
+        }
+        
+        .swiper-slide {
+            width: auto !important;
+            flex-shrink: 0;
+        }
+
+        .popular-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .popular-card-inner {
+            position: relative;
+            width: 320px;
+            height: 400px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .popular-card:hover .popular-card-inner {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .popular-card-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .popular-card:hover .popular-card-image {
+            transform: scale(1.1);
+        }
+
+        .popular-card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+            z-index: 1;
+        }
+
+        .popular-card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px;
+            z-index: 2;
+        }
+
+        .popular-card-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 14px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .popular-card-badge img {
+            width: 16px;
+            height: 16px;
+        }
+
+        .popular-card-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 6px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .popular-card-category {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        /* ========================================
+           CATEGORIES - Chip Design
+        ======================================== */
+        .categories-slider {
+            padding: 0 20px;
+        }
+
+        .category-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .category-chip:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.2);
+            border-color: var(--primary);
+            background: #ffffff;
+        }
+
+        .category-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        /* ========================================
+           SELLERS - Grid Cards
+        ======================================== */
+        .sellers-slider {
+            padding: 0 20px;
+        }
+
+        .seller-card {
+            display: block;
+            text-decoration: none;
+        }
+
+        .seller-card-inner {
+            position: relative;
+            width: 170px;
+            height: 220px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            transition: all 0.3s ease;
+        }
+
+        .seller-card:hover .seller-card-inner {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
+        }
+
+        .seller-card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .seller-card:hover .seller-card-image {
+            transform: scale(1.1);
+        }
+
+        .seller-card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 30%, rgba(0, 0, 0, 0.75) 100%);
+            z-index: 1;
+        }
+
+        .seller-card-info {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            z-index: 2;
+        }
+
+        .seller-card-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .seller-card-count {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* ========================================
+           AVAILABLE TICKETS - List Design
+        ======================================== */
+        .tickets-list {
+            padding: 0 20px;
+        }
+
+        .ticket-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            background: #ffffff;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            border: 2px solid transparent;
+        }
+
+        .ticket-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            border-color: var(--primary);
+        }
+
+        .ticket-image-wrapper {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            border-radius: 16px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .ticket-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .ticket-item:hover .ticket-image {
+            transform: scale(1.1);
+        }
+
+        .ticket-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .ticket-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+
+        .ticket-location {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .ticket-location img {
+            width: 16px;
+            height: 16px;
+        }
+
+        .ticket-price {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .ticket-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, #FFF4E6 0%, #FFE8CC 100%);
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .ticket-rating img {
+            width: 16px;
+            height: 16px;
+        }
+
+
+        /* ========================================
+           SWIPER CUSTOMIZATION
+        ======================================== */
+        .swiper {
+            overflow: visible;
+        }
+
+        .swiper-slide {
+            width: auto;
+        }
+
+        /* ========================================
+           EMPTY STATE
+        ======================================== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .empty-text {
+            font-size: 15px;
+            font-style: italic;
+        }
+
+        /* ========================================
+           ANIMATIONS
+        ======================================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+
+        /* ========================================
+           RESPONSIVE
+        ======================================== */
+        @media (max-width: 768px) {
+            .search-dropdown {
+                top: 140px;
+                width: calc(100% - 20px);
+                max-height: calc(100vh - 200px);
+                left: 10px;
+                right: 10px;
+                transform: none;
+            }
+            
+            .search-dropdown-item {
+                padding: 14px 12px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .section-title {
+                font-size: 22px;
+            }
+
+            .popular-card-inner {
+                width: 280px;
+                height: 360px;
+            }
+
+            .seller-card-inner {
+                width: 150px;
+                height: 200px;
+            }
+        }
+
+        /* ========================================
+           DESKTOP RESPONSIVE - GRID OVERRIDE
+        ======================================== */
+        @media (min-width: 768px) {
+            /* Container lebih lebar di desktop */
+            .app-container {
+                max-width: 100%;
+            }
+
+            /* Main content dengan max-width */
+            main {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 40px 60px;
+            }
+
+            /* Header padding lebih besar */
+            .header {
+                padding: 40px 60px 120px;
+            }
+
+            .header-content {
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            /* Section spacing lebih besar */
+            .section {
+                margin-bottom: 60px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            /* Welcome text lebih besar */
+            .welcome-text h1 {
+                font-size: 42px;
+            }
+
+            .welcome-text p {
+                font-size: 16px;
+            }
+
+            /* Search box centered */
+            .search-wrapper {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            /* Logo lebih besar */
+            .logo {
+                height: 50px;
+            }
+
+            /* ========================================
+               CATEGORIES - FORCE GRID ON DESKTOP
+            ======================================== */
+            .categories-slider {
+                display: grid !important;
+                /* auto-fill agar tidak stretch jika data sedikit */
+                grid-template-columns: repeat(auto-fill, minmax(180px, 200px)) !important;
+                gap: 24px !important;
+                justify-content: start; /* Align grid ke kiri */
+            }
+
+            .categories-slider .swiper-wrapper {
+                display: contents !important;
+                transform: none !important;
+            }
+
+            .categories-slider .swiper-slide {
+                width: auto !important;
+                margin: 0 !important;
+            }
+
+            .category-card {
+                width: 100%;
+                padding: 40px 30px;
+                border-radius: 20px;
+            }
+
+            .category-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            }
+
+            .category-card-icon {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 16px;
+            }
+
+            .category-card-icon img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .category-card-name {
+                font-size: 16px;
+                font-weight: 700;
+            }
+
+            /* ========================================
+               SELLERS - FORCE GRID ON DESKTOP
+            ======================================== */
+            .sellers-slider {
+                display: grid !important;
+                /* auto-fill agar tidak stretch jika data sedikit */
+                grid-template-columns: repeat(auto-fill, minmax(240px, 280px)) !important;
+                gap: 30px !important;
+                justify-content: start; /* Align grid ke kiri */
+            }
+
+            .sellers-slider .swiper-wrapper {
+                display: contents !important;
+                transform: none !important;
+            }
+
+            .sellers-slider .swiper-slide {
+                width: auto !important;
+                margin: 0 !important;
+            }
+
+            .seller-card-inner {
+                width: 100% !important;
+                height: 280px !important;
+                border-radius: 20px;
+            }
+
+            .seller-card:hover .seller-card-inner {
+                transform: translateY(-8px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            }
+
+            .seller-card-name {
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+            .seller-card-count {
+                font-size: 15px;
+            }
+
+            /* ========================================
+               TICKETS LIST - GRID ON DESKTOP
+            ======================================== */
+            .tickets-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                gap: 24px;
+            }
+
+            .ticket-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+            }
+
+            /* ========================================
+               POPULAR CARDS - BIGGER ON DESKTOP
+            ======================================== */
+            .popular-card-inner {
+                width: 320px !important;
+                height: 400px !important;
+            }
+
+            .popular-card:hover .popular-card-inner {
+                transform: translateY(-10px);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            }
+
+          
+
+            /* ========================================
+               SEARCH DROPDOWN POSITIONING
+            ======================================== */
+            .search-dropdown {
+                top: 200px;
+                max-height: 500px;
+            }
+
+            body.dropdown-open {
+                overflow: visible;
+            }
+        }
+    </style>

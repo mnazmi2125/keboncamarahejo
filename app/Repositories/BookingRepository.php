@@ -12,10 +12,23 @@ class BookingRepository implements BookingRepositoryInterface
         return BookingTransaction::create($data);
     }
 
-    public function findByTrxIdAndPhoneNumber($bookingTrxId, $phoneNumber)
+    // public function findByTrxIdAndPhoneNumber($bookingTrxId, $phoneNumber)
+    // {
+    //     return BookingTransaction::where('booking_trx_id', $bookingTrxId)
+    //         ->where('phone_number', $phoneNumber)
+    //         ->first();
+    // }
+
+        public function findByTrxIdAndPhoneNumber($bookingTrxId, $phoneNumber)
     {
-        return BookingTransaction::where('booking_trx_id', $bookingTrxId)
-            ->where('phone_number', $phoneNumber)
-            ->first();
+        return BookingTransaction::with([
+            'ticket',
+            'ticket.category',
+            'ticket.seller'
+        ])
+        ->where('booking_trx_id', $bookingTrxId)
+        ->where('phone_number', $phoneNumber)
+        ->first();
     }
+
 }

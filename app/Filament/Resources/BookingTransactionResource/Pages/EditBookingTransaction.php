@@ -16,4 +16,21 @@ class EditBookingTransaction extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    // ✅ Load data dari database ke form (untuk View/Edit)
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        return BookingTransactionResource::loadExtraServicesData($data);
+    }
+
+    // ✅ Process data sebelum update ke database
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        return BookingTransactionResource::processExtraServicesData($data);
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

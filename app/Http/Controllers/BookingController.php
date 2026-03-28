@@ -6,6 +6,7 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\StoreCheckBookingRequest;
 use App\Http\Requests\StorePaymentRequest;
 use App\Models\BookingTransaction;
+use App\Models\ExtraService;
 use App\Models\Ticket;
 use App\Services\BookingService;
 use Illuminate\Http\Request;
@@ -21,19 +22,25 @@ class BookingController extends Controller
     }
 
     public function booking(Ticket $ticket)
-    {
-        // dd($ticket);
-        return view('front.booking', compact('ticket'));
-    }
+{
+    // ✅ Ambil extra services dari database
+    $extraServices = ExtraService::active()
+        ->forTicket($ticket->id)
+        ->orderBy('name')
+        ->get();
+
+    return view('front.booking', compact('ticket', 'extraServices'));
+}
 
     public function bookingStore(Ticket $ticket, StoreBookingRequest $request)
-    {
+    { 
         $validated = $request->validated();
+        $extraServicePrice = $validated['extra_service_price'] ?? 0;
 
-        $totals = $this->bookingService->calculateTotals($ticket->id, $validated['total_participant']);
+        $totals = $this->bookingService->calculateTotals($ticket->id, $validated['total_participant'], $extraServicePrice);
         $this->bookingService->storeBookingInSession($ticket, $validated, $totals);
         return redirect()->route('front.payment');
-    }
+    } 
 
     public function payment()
     {
